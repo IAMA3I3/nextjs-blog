@@ -4,7 +4,7 @@ import { DashboardFooter } from "@/components/layout/Footer";
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
 
     return (
-        <main className=" h-screen w-screen overflow-hidden p-6 flex justify-center items-center">
+        <main className=" min-h-screen overflow-hidden p-6 flex justify-center items-center">
             <PageCard>
                 {children}
             </PageCard>

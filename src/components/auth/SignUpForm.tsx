@@ -3,18 +3,9 @@
 import Link from "next/link"
 import { Button } from "../ui/Button"
 import { ChangeEvent, FormEvent, useState } from "react"
-
-type SignUpFormData = {
-    email: string
-    password: string
-    confirmPassword: string
-}
-
-type SignUpFormError = {
-    email?: string
-    password?: string
-    confirmPassword?: string
-}
+import { SignUpFormData } from "@/types/auth"
+import { signUpAction } from "@/actions/auth"
+import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidator"
 
 const initialData: SignUpFormData = {
     email: "",
@@ -33,33 +24,28 @@ export default function SignUpForm() {
         setData({ ...data, [name]: value })
     }
 
-    const isValid = (data: SignUpFormData) => {
-        let tempError: SignUpFormError = {}
-
-        if (data.email.trim() === "") {
-            tempError.email = "Email is required"
-        } else if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(data.email)) {
-            tempError.email = "Invalid email"
-        }
-        if (data.password.length < 4) {
-            tempError.password = "Password must contain 4 or more characters"
-        } else if (data.confirmPassword !== data.password) {
-            tempError.confirmPassword = "Not a match with password"
-        }
-
-        setError(tempError)
-        return Object.keys(tempError).length === 0
-    }
-
     const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsLoading(true)
 
-        if (isValid(data)) {
-            await new Promise(resolve => setTimeout(resolve, 2000)) // delay 2s
-            console.log(data)
-            setData(initialData)
+        const { isValid, errors } = validateSignUp(data)
+
+        if (!isValid) {
+            setError(errors)
+            setIsLoading(false)
+            return
         }
+
+        const result = await signUpAction(data)
+
+        if (!result.success) {
+            setError(result.errors)
+            setIsLoading(false)
+            return
+        }
+
+        setData(initialData)
+        setError({})
         setIsLoading(false)
     }
 
