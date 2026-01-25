@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import { SignUpFormData } from "@/types/auth"
 import { signUpAction } from "@/actions/auth"
 import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidator"
+import toast from "react-hot-toast"
 
 const initialData: SignUpFormData = {
     email: "",
@@ -47,11 +48,13 @@ export default function SignUpForm() {
         setData(initialData)
         setError({})
         setIsLoading(false)
+        toast.success("Account created")
     }
 
     return (
         <div className=" w-full">
             <form onSubmit={onFormSubmit} className=" w-full space-y-4">
+                {error.default && <p className=" text-sm font-semibold text-red-400 text-center">{error.default}</p>}
                 <div className=" space-y-1">
                     <label htmlFor="email" className=" text-sm font-semibold text-muted">Email</label>
                     <input value={data.email} onChange={onInputChange} type="text" id="email" name="email" className=" w-full py-1 px-3 outline-none border-2 border-gray-300 rounded focus:border-blue-500" />

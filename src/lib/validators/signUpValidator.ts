@@ -1,6 +1,7 @@
 import { SignUpFormData } from "@/types/auth"
 
 export type SignUpFormError = {
+    default?: string
     email?: string
     password?: string
     confirmPassword?: string
