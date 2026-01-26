@@ -2,11 +2,61 @@
 
 import { getCollection } from "@/lib/db";
 import { createSession } from "@/lib/sessions";
+import { SignInFormError, validateSignIn } from "@/lib/validators/signInValidator";
 import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidator";
 import { ActionResponse } from "@/types/action";
-import { SignUpFormData } from "@/types/auth";
+import { SignInFormData, SignUpFormData } from "@/types/auth";
 import bcrypt from "bcrypt"
-import { redirect } from "next/navigation";
+
+export async function signInAction(data: SignInFormData): ActionResponse<SignInFormData, SignInFormError> {
+
+    // validate data
+    const { isValid, errors } = validateSignIn(data)
+    if (!isValid) {
+        return {
+            success: false,
+            data,
+            errors
+        }
+    }
+
+    const { email, password } = data
+
+    // get the collection
+    const userCollection = await getCollection("users")
+    if (!userCollection) {
+        return {
+            success: false,
+            data,
+            errors: { default: "Server error" }
+        }
+    }
+
+    // check if user exists
+    const existingUser = await userCollection.findOne({ email })
+    if (!existingUser) {
+        return {
+            success: false,
+            data,
+            errors: { default: "Invalid credential" }
+        }
+    }
+
+    // check password
+    const matchedPassword = await bcrypt.compare(password, existingUser.password)
+    if (!matchedPassword) {
+        return {
+            success: false,
+            data,
+            errors: { default: "Invalid credential" }
+        }
+    }
+
+    // create session
+    await createSession(existingUser._id.toString())
+
+    return { success: true, errors: {}, data }
+}
 
 export async function signUpAction(data: SignUpFormData): ActionResponse<SignUpFormData, SignUpFormError> {
 
@@ -61,9 +111,6 @@ export async function signUpAction(data: SignUpFormData): ActionResponse<SignUpF
 
     // create a session
     await createSession(results.insertedId.toString())
-
-    // redirect
-    redirect("/dashboard")
 
     return { success: true, errors: {}, data }
 }

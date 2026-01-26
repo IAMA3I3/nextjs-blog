@@ -3,3 +3,8 @@ export type SignUpFormData = {
     password: string
     confirmPassword: string
 }
+
+export type SignInFormData = {
+    email: string
+    password: string
+}

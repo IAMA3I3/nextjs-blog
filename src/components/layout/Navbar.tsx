@@ -9,6 +9,7 @@ import { HiMenuAlt1 } from "react-icons/hi";
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Sign Up", href: "/sign-up" },
+    { name: "Sign In", href: "/sign-in" },
     { name: "Dashboard", href: "/dashboard" }
 ]
 

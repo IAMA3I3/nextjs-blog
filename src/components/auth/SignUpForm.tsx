@@ -7,6 +7,7 @@ import { SignUpFormData } from "@/types/auth"
 import { signUpAction } from "@/actions/auth"
 import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidator"
 import toast from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 const initialData: SignUpFormData = {
     email: "",
@@ -49,6 +50,7 @@ export default function SignUpForm() {
         setError({})
         setIsLoading(false)
         toast.success("Account created")
+        redirect("/dashboard")
     }
 
     return (
