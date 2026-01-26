@@ -58,7 +58,7 @@ export default function SignInForm() {
                 {error.default && <p className=" text-sm font-semibold text-red-400 text-center">{error.default}</p>}
                 <div className=" space-y-1">
                     <label htmlFor="email" className=" text-sm font-semibold text-muted">Email</label>
-                    <input value={data.email} onChange={onInputChange} type="email" id="email" name="email" className=" w-full py-1 px-3 outline-none border-2 border-gray-300 rounded focus:border-blue-500" />
+                    <input value={data.email} onChange={onInputChange} type="text" id="email" name="email" className=" w-full py-1 px-3 outline-none border-2 border-gray-300 rounded focus:border-blue-500" />
                     {error.email && <p className=" text-sm font-semibold text-red-400">{error.email}</p>}
                 </div>
                 <div className=" space-y-1">

@@ -2,15 +2,17 @@ type PageCardProps = {
     children: React.ReactNode
     fullWidth?: boolean
     fullHeight?: boolean
+    centerAlign?: boolean
 }
 
-export const PageCard = ({ children, fullWidth = false, fullHeight = false }: PageCardProps) => {
+export const PageCard = ({ children, fullWidth = false, fullHeight = false, centerAlign = false }: PageCardProps) => {
 
     return (
         <div
             className={`
                 ${fullWidth ? "" : " max-w-150"}
                 ${fullHeight ? " h-full" : ""}
+                ${centerAlign ? " mx-auto" : ""}
                 w-full p-6 rounded-lg shadow-lg bg-white border-2 border-gray-100
             `}
         >
