@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "../ui/Logo";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { SessionPayload } from "@/lib/sessions";
+import { logoutAction } from "@/actions/auth";
+import toast from "react-hot-toast";
 
 type NavbarProps = {
     authUser: SessionPayload | null
@@ -32,6 +34,12 @@ export default function Navbar({ authUser }: NavbarProps) {
     const [isOpen, setIsOpen] = useState(false)
 
     const navLinks = authUser ? authLinks : guestLinks
+
+    const logout = () => {
+        logoutAction()
+        toast.success("Logged out")
+        redirect("/")
+    }
 
     useEffect(() => {
         const setVH = () => {
@@ -68,6 +76,7 @@ export default function Navbar({ authUser }: NavbarProps) {
                                 )
                             })
                         }
+                        {authUser && <button onClick={logout} className=" text-gray-300 cursor-pointer hover:text-white text-sm font-semibold transition-colors">Logout</button>}
                     </div>
                     <button onClick={() => setIsOpen(true)} className="md:hidden text-white text-2xl">
                         <HiMenuAlt1 />
@@ -86,6 +95,7 @@ export default function Navbar({ authUser }: NavbarProps) {
                             )
                         })
                     }
+                    {authUser && <button onClick={logout} className=" w-full cursor-pointer text-primary hover:bg-primary/20 flex items-center font-semibold py-2 px-6">Logout</button>}
                 </div>
             </div>
         </>

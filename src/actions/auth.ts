@@ -7,6 +7,12 @@ import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidato
 import { ActionResponse } from "@/types/action";
 import { SignInFormData, SignUpFormData } from "@/types/auth";
 import bcrypt from "bcrypt"
+import { cookies } from "next/headers";
+
+export async function logoutAction() {
+    const cookieStore = await cookies()
+    cookieStore.delete("session")
+}
 
 export async function signInAction(data: SignInFormData): ActionResponse<SignInFormData, SignInFormError> {
 
