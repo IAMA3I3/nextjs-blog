@@ -5,17 +5,33 @@ import { useEffect, useState } from "react";
 import { Logo } from "../ui/Logo";
 import { usePathname } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
+import { SessionPayload } from "@/lib/sessions";
 
-const navLinks = [
+type NavbarProps = {
+    authUser: SessionPayload | null
+}
+
+const generalLinks = [
     { name: "Home", href: "/" },
-    { name: "Sign Up", href: "/sign-up" },
+    { name: "About", href: "/about" }
+]
+
+const guestLinks = [
+    ...generalLinks,
     { name: "Sign In", href: "/sign-in" },
+    { name: "Sign Up", href: "/sign-up" }
+]
+
+const authLinks = [
+    ...generalLinks,
     { name: "Dashboard", href: "/dashboard" }
 ]
 
-export default function Navbar() {
+export default function Navbar({ authUser }: NavbarProps) {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
+
+    const navLinks = authUser ? authLinks : guestLinks
 
     useEffect(() => {
         const setVH = () => {
