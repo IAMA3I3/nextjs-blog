@@ -11,25 +11,34 @@ type RenderPostDetailProps = {
 
 export default async function RenderPostDetail({ id }: RenderPostDetailProps) {
 
-    if (id.length !== 24) {
-        notFound()
+    try {
+
+        if (id.length !== 24) {
+            notFound()
+        }
+
+        const postCollection = await getCollection<Post>("posts")
+        const post = await postCollection.findOne({ _id: ObjectId.createFromHexString(id) })
+
+        if (!post) {
+            notFound()
+        }
+
+        return (
+            <>
+                <PageHeader subtitle={post.title} currentPage="Post Detail" />
+                <PageCard centerAlign>
+                    <p className=" text-sm font-semibold text-gray-500">{post._id.getTimestamp().toLocaleString()}</p>
+                    <h3 className=" text-2xl mb-4">{post.title}</h3>
+                    <p>{post.content}</p>
+                </PageCard>
+            </>
+        )
+    } catch (err) {
+        return (
+            <div className=" flex-1 justify-center items-center">
+                <p className=" text-center text-red-400">{err instanceof Error ? err.message : "An Error Occured"}</p>
+            </div>
+        )
     }
-
-    const postCollection = await getCollection<Post>("posts")
-    const post = await postCollection.findOne({ _id: ObjectId.createFromHexString(id) })
-
-    if (!post) {
-        notFound()
-    }
-
-    return (
-        <>
-            <PageHeader subtitle={post.title} currentPage="Post Detail" />
-            <PageCard centerAlign>
-                <p className=" text-sm font-semibold text-gray-500">{post._id.getTimestamp().toLocaleString()}</p>
-                <h3 className=" text-2xl mb-4">{post.title}</h3>
-                <p>{post.content}</p>
-            </PageCard>
-        </>
-    )
 }
