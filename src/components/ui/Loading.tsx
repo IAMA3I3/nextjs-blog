@@ -5,3 +5,16 @@ export const LoadingSpinner = () => {
         </div>
     )
 }
+
+type LoadingTextProps = {
+    text: string
+}
+
+export const LoadingText = ({ text }: LoadingTextProps) => {
+
+    return (
+        <div className=" flex-1 w-full h-full justify-center items-center">
+            <p className=" italic text-xl text-center text-gray-500 animate-pulse">{text} ...</p>
+        </div>
+    )
+}

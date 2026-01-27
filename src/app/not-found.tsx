@@ -1,4 +1,5 @@
-import Navbar from "@/components/layout/Navbar";
+import { MainFooter } from "@/components/layout/Footer";
+import NavbarServer from "@/components/layout/Navbar.server";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { GoHomeFill } from "react-icons/go";
@@ -7,7 +8,7 @@ export default function NotFound() {
 
     return (
         <main className=" flex flex-col min-h-screen">
-            <Navbar />
+            <NavbarServer />
             <div className=" flex-1 flex flex-col justify-center items-center">
                 <h1 className=' text-6xl md:text-9xl font-thin text-gray-600'>404</h1>
                 <p className=' text-2xl text-gray-600'>Page Not Found</p>
@@ -15,6 +16,7 @@ export default function NotFound() {
                     <Button variant="secondary" text="Go To Home" icon={GoHomeFill} iconPosition="end" />
                 </Link>
             </div>
+            <MainFooter />
         </main>
     )
 }

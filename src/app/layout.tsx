@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <StateProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased cursor-default`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased cursor-default flex- flex-col`}
         >
           {children}
           <Toaster position="bottom-right" />
