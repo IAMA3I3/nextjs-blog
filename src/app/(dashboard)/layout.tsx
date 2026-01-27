@@ -1,6 +1,6 @@
 import { DashboardFooter } from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/Sidebar";
-import Topbar from "@/components/layout/Tobbar";
+import Topbar from "@/components/layout/Topbar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 

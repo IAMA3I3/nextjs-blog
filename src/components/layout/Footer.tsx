@@ -1,7 +1,7 @@
 export const MainFooter = () => {
 
     return (
-        <div className=" mt-12 w-full bg-slate-700 text-white py-4">
+        <div className=" w-full bg-slate-700 text-white py-4">
             <div className=" container mx-auto px-6">
                 <div className=" flex flex-col gap-4 md:flex-row justify-between items-center">
                     <div className=""></div>

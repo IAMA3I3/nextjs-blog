@@ -35,8 +35,8 @@ export default function Navbar({ authUser }: NavbarProps) {
 
     const navLinks = authUser ? authLinks : guestLinks
 
-    const logout = () => {
-        logoutAction()
+    const logout = async () => {
+        await logoutAction()
         toast.success("Logged out")
         redirect("/")
     }

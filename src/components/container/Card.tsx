@@ -22,3 +22,24 @@ export const PageCard = ({ children, fullWidth = false, fullHeight = false, cent
         </div>
     )
 }
+
+type BasicCardProps = {
+    children: React.ReactNode
+    noPadding?: boolean
+    hoverEffect?: boolean
+}
+
+export const BasicCard = ({ children, noPadding = false, hoverEffect = false }: BasicCardProps) => {
+
+    return (
+        <div
+            className={`
+                ${noPadding ? "" : " p-4"}
+                ${hoverEffect ? " hover:shadow-xl" : ""}
+                w-full shadow-lg rounded-lg bg-white border-2 border-gray-100 overflow-hidden
+            `}
+        >
+            {children}
+        </div>
+    )
+}
