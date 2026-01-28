@@ -3,8 +3,6 @@ import RenderPosts from "@/components/post/RenderPosts";
 import { LoadingText } from "@/components/ui/Loading";
 import { Suspense } from "react";
 
-export const revalidate = 60
-
 export default async function Home() {
 
   return (

@@ -6,7 +6,7 @@ export default function GlobalError() {
             <body className=" h-screen">
                 <div className=" w-full h-full flex flex-col justify-center items-center text-center gap-8">
                     <div className=" text-5xl font-thin text-red-500">Something went wrong</div>
-                    <button onClick={() => window.location.reload()}>Refresh</button>
+                    <button onClick={() => window.location.reload()} className=" hover:underline">Refresh</button>
                 </div>
             </body>
         </html>
