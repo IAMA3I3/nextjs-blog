@@ -4,7 +4,7 @@ import { PostFormData } from "@/types/post"
 import { Button } from "../ui/Button"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { PostFormError, validatePost } from "@/lib/validators/postValidator"
-import { createPostAction } from "@/actions/post"
+import { createPostAction, updatePostAction } from "@/actions/post"
 import toast from "react-hot-toast"
 import { redirect } from "next/navigation"
 
@@ -42,7 +42,7 @@ export default function PostForm(props: PostFormProps) {
             return
         }
 
-        const result = props.type === "CREATE" ? await createPostAction(data) : { success: false, errors: { default: "Update Action is not yet defined" }, data }
+        const result = props.type === "CREATE" ? await createPostAction(data) : await updatePostAction(data, props.post.id)
         if (!result.success) {
             setError(result.errors)
             setIsLoading(false)
@@ -52,7 +52,7 @@ export default function PostForm(props: PostFormProps) {
         setData(props.type === "CREATE" ? initialData : data)
         setIsLoading(false)
         setError({})
-        toast.success("Post created")
+        toast.success(props.type === "CREATE" ? "Post created" : "Post updated")
         redirect("/my-posts")
     }
 
