@@ -33,7 +33,7 @@ The project focuses on understanding how frontend and backend systems work toget
 ```bash
 git clone https://github.com/IAMA3I3/nextjs-blog.git
 cd nextjs-blog
-
+```bash
 ### 2. Install dependencies
 ```bash
 npm install
