@@ -59,7 +59,7 @@ export async function signInAction(data: SignInFormData): ActionResponse<SignInF
     }
 
     // create session
-    await createSession(existingUser._id.toString())
+    await createSession(existingUser._id.toString(), existingUser.email)
 
     return { success: true, errors: {}, data }
 }
@@ -116,7 +116,7 @@ export async function signUpAction(data: SignUpFormData): ActionResponse<SignUpF
     console.log(results)
 
     // create a session
-    await createSession(results.insertedId.toString())
+    await createSession(results.insertedId.toString(), email)
 
     return { success: true, errors: {}, data }
 }

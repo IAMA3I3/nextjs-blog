@@ -1,17 +1,22 @@
 "use client"
 
 import { LuLayoutDashboard } from "react-icons/lu"
-import { FaBlog } from "react-icons/fa6"
+import { FaBlog, FaUser } from "react-icons/fa6"
 import { useStateContext } from "@/context/StateContext"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
+import { SessionPayload } from "@/lib/sessions"
+
+type SidebarProps = {
+    authUser: SessionPayload
+}
 
 const navLinks = [
     { title: "Overview", href: "/dashboard", icon: LuLayoutDashboard },
     { title: "Posts", href: "/my-posts", icon: FaBlog }
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ authUser }: SidebarProps) {
     const { isSideBarOpened, toggleSideBar, closeSideBar } = useStateContext()
     const pathname = usePathname()
 
@@ -63,12 +68,12 @@ export default function Sidebar() {
                     <div className="p-4 border-t border-gray-800">
                         <div className={`flex items-center space-x-3 ${!isSideBarOpened && 'lg:justify-center'}`}>
                             <div className="w-10 h-10 bg-linear-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-semibold">
-                                UN
+                                <FaUser />
                             </div>
                             {isSideBarOpened && (
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium truncate">User Name</p>
-                                    <p className="text-xs text-gray-400 truncate">username@gmail.com</p>
+                                    {/* <p className="text-sm font-medium truncate">User Name</p> */}
+                                    <p className="text-sm text-gray-300 truncate">{authUser.email}</p>
                                 </div>
                             )}
                         </div>
