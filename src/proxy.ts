@@ -7,7 +7,7 @@ const publicRoutes = ["/sign-up", "/sign-in"]
 export default async function proxy(req: NextRequest) {
 
     const path = req.nextUrl.pathname
-    console.log(path)
+    // console.log(path)
     const isProtected = protectedRoutes.includes(path) || path.startsWith("/my-posts/")
     const isPublic = publicRoutes.includes(path)
 
