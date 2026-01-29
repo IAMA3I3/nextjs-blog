@@ -8,6 +8,35 @@ import { Post, PostFormData } from "@/types/post";
 import { ObjectId, WithId } from "mongodb";
 import { redirect } from "next/navigation";
 
+export async function deletePostAction(id: string) {
+
+    // check if user is logged in
+    const authUser = await getAuthUser()
+    if (!authUser) {
+        redirect("/")
+    }
+
+    const postCollection = await getCollection<Post>("posts")
+    let post: WithId<Post> | null = null
+    try {
+        post = await postCollection.findOne({ _id: ObjectId.createFromHexString(id) })
+    } catch (err) {
+        throw new Error("Post not found")
+    }
+
+    if (!post) {
+        throw new Error("Error fetching post")
+    }
+
+    try {
+        await postCollection.findOneAndDelete({ _id: post._id })
+    } catch (err) {
+        throw new Error("Error deleting post")
+    }
+
+    return { success: true }
+}
+
 export async function updatePostAction(data: PostFormData, id: string): ActionResponse<PostFormData, PostFormError> {
 
     // check if user is logged in

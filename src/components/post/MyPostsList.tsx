@@ -5,6 +5,7 @@ import { RenderError } from "../ui/RenderError"
 import { getCollection } from "@/lib/db"
 import { PageCard } from "../container/Card"
 import Link from "next/link"
+import DeletePostButton from "./DeletePostButton"
 
 export default async function MyPostsList() {
 
@@ -40,7 +41,7 @@ export default async function MyPostsList() {
                             <div className=" flex gap-4 items-center justify-center flex-wrap">
                                 <Link href={`/my-posts/${post._id.toString()}`} className=" text-sm font-semibold text-green-500 hover:underline">View</Link>
                                 <Link href={`/my-posts/${post._id.toString()}/edit`} className=" text-sm font-semibold text-blue-500 hover:underline">Edit</Link>
-                                <button className=" text-sm font-semibold cursor-pointer text-red-500 hover:underline">Delete</button>
+                                <DeletePostButton id={post._id.toString()} from="POSTS" />
                             </div>
                         </div>
                     ))

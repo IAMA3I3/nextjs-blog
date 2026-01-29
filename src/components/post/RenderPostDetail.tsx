@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { PageCard } from "../container/Card"
 import PageHeader from "../layout/PageHeader"
 import { RenderError } from "../ui/RenderError"
+import { nl2brReact } from "@/lib/text/nl2brReact"
 
 type RenderPostDetailProps = {
     id: string
@@ -35,7 +36,7 @@ export default async function RenderPostDetail({ id }: RenderPostDetailProps) {
             <PageCard centerAlign>
                 <p className=" text-sm font-semibold text-gray-500">{post._id.getTimestamp().toLocaleString()}</p>
                 <h3 className=" text-2xl mb-4">{post.title}</h3>
-                <p>{post.content}</p>
+                <p>{nl2brReact(post.content)}</p>
             </PageCard>
         </>
     )
