@@ -42,7 +42,7 @@ export default async function MyPostDetail({ params }: PostDetailProps) {
     }
 
     if (authUser.userId !== post.userId.toString()) {
-        throw new Error("Access denied")
+        notFound()
     }
 
     return (

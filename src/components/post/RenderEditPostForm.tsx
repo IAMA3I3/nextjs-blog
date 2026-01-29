@@ -33,7 +33,7 @@ export default async function RenderEditPostForm({ id }: RenderEditPostFormProps
     }
 
     if (authUser?.userId !== post.userId.toString()) {
-        redirect("/")
+        notFound()
     }
 
     return (
