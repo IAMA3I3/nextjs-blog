@@ -14,21 +14,31 @@ const client = new MongoClient(process.env.DB_URI, {
   },
 })
 
+let cachedClient: MongoClient | null = null
 let cachedDb: Db | null = null
 
-async function getDb(dbName: string): Promise<Db> {
+async function connectToDatabase() {
+  // If we have both cached client and db, return them
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb }
+  }
+
   try {
-    if (cachedDb) {
-      return cachedDb
+    // Connect to MongoDB if not already connected
+    if (!cachedClient) {
+      cachedClient = await client.connect()
+      console.log(">>>> Connected to MongoDB <<<<")
     }
-
-    await client.connect()
-    console.log(">>>> Connected to DB <<<<")
-
-    cachedDb = client.db(dbName)
-    return cachedDb
+    
+    // Get the database instance
+    cachedDb = cachedClient.db("next_blog_db")
+    
+    return { client: cachedClient, db: cachedDb }
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error)
+    // Reset cached values on error
+    cachedClient = null
+    cachedDb = null
     throw error
   }
 }
@@ -36,6 +46,6 @@ async function getDb(dbName: string): Promise<Db> {
 export async function getCollection<T extends Document>(
   collectionName: string
 ): Promise<Collection<T>> {
-  const db = await getDb("next_blog_db")
+  const { db } = await connectToDatabase()
   return db.collection<T>(collectionName)
 }

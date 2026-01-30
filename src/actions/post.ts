@@ -65,7 +65,7 @@ export async function updatePostAction(data: PostFormData, id: string): ActionRe
             success: false,
             data,
             errors: {
-                default: err instanceof Error ? err.message : "Error fetching post"
+                default: "Post not found"
             }
         }
     }
@@ -103,7 +103,7 @@ export async function updatePostAction(data: PostFormData, id: string): ActionRe
             success: false,
             data,
             errors: {
-                default: err instanceof Error ? err.message : "Error updating post"
+                default: "Unable to update post. Please try again."
             }
         }
     }
@@ -132,18 +132,18 @@ export async function createPostAction(data: PostFormData): ActionResponse<PostF
 
     // add to the database and create if collection doesn't exist
     try {
-        const postCollection = await getCollection("posts")
+        const postCollection = await getCollection<Post>("posts")
         const post = {
             title: data.title,
             content: data.content,
             userId: ObjectId.createFromHexString(authUser.userId)
         }
-        await postCollection.insertOne(post)
+        await postCollection.insertOne(post as Post)
     } catch (err) {
         return {
             success: false,
             data,
-            errors: { default: err instanceof Error ? err.message : "An error occured" }
+            errors: { default: "Unable to create post. Please try again." }
         }
     }
 

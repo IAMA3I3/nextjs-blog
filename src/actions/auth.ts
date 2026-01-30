@@ -5,7 +5,7 @@ import { createSession } from "@/lib/sessions";
 import { SignInFormError, validateSignIn } from "@/lib/validators/signInValidator";
 import { SignUpFormError, validateSignUp } from "@/lib/validators/signUpValidator";
 import { ActionResponse } from "@/types/action";
-import { SignInFormData, SignUpFormData } from "@/types/auth";
+import { SignInFormData, SignUpFormData, User } from "@/types/auth";
 import bcrypt from "bcrypt"
 import { cookies } from "next/headers";
 
@@ -84,13 +84,13 @@ export async function signUpAction(data: SignUpFormData): ActionResponse<SignUpF
     const { email, password } = data
 
     // get or create the collection in db
-    const userCollection = await getCollection("users")
+    const userCollection = await getCollection<User>("users")
     if (!userCollection) {
         return {
             success: false,
             data,
             errors: {
-                default: "Server error"
+                default: "Service temporarily unavailable"
             }
         }
     }
@@ -112,7 +112,7 @@ export async function signUpAction(data: SignUpFormData): ActionResponse<SignUpF
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // insert into the db
-    const results = await userCollection.insertOne({ email, password: hashedPassword })
+    const results = await userCollection.insertOne({ email, password: hashedPassword } as User)
     console.log(results)
 
     // create a session
